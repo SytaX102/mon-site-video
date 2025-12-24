@@ -3,40 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Amélioration Vidéo</title>
-  <style>
-    body {
-      background:#111;
-      color:white;
-      font-family:Arial;
-      text-align:center;
-    }
-    video {
-      width:80%;
-      max-width:800px;
-      filter: contrast(120%) brightness(110%) saturate(130%);
-      margin-top:20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Améliore ta vidéo</h1>
+<h1>Améliorer la qualité d’une vidéo</h1>
 
-<input type="file" accept="video/*" id="upload">
+<input type="file" id="upload" accept="video/*">
 
-<br><br>
+<div class="controls">
+  <label>Netteté</label>
+  <input type="range" id="sharpness" min="0" max="200" value="100">
+
+  <label>Contraste</label>
+  <input type="range" id="contrast" min="50" max="200" value="120">
+
+  <label>Luminosité</label>
+  <input type="range" id="brightness" min="50" max="200" value="110">
+
+  <label>Saturation</label>
+  <input type="range" id="saturate" min="50" max="200" value="130">
+</div>
 
 <video id="video" controls></video>
 
-<script>
-  const upload = document.getElementById("upload");
-  const video = document.getElementById("video");
-
-  upload.onchange = e => {
-    const file = e.target.files[0];
-    video.src = URL.createObjectURL(file);
-  };
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
