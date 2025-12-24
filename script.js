@@ -56,3 +56,20 @@ sharpnessSlider.addEventListener('input', updateFilters);
 contrastSlider.addEventListener('input', updateFilters);
 brightnessSlider.addEventListener('input', updateFilters);
 saturateSlider.addEventListener('input', updateFilters);
+const videoOriginal = document.getElementById('video-original');
+const videoEnhanced = document.getElementById('video-enhanced');
+const toggleButton = document.getElementById('toggleComparison');
+
+let showEnhanced = true;
+
+toggleButton.addEventListener('click', () => {
+  showEnhanced = !showEnhanced;
+  
+  if (showEnhanced) {
+    videoOriginal.style.display = 'none';
+    videoEnhanced.style.display = 'block';
+  } else {
+    videoOriginal.style.display = 'block';
+    videoEnhanced.style.display = 'none';
+  }
+});
