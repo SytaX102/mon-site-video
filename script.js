@@ -94,5 +94,35 @@ document.querySelectorAll('.preset').forEach(button => {
     document.getElementById('saturate').value = saturation;
   });
 });
+// Gérer l'importation de fichier
+document.getElementById('importButton').addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'video/*';
 
-// Corriger l'importation de fichier
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    const videoElement = document.getElementById('video-original');
+    if (file) {
+      videoElement.src = URL.createObjectURL(file);
+      videoElement.style.display = 'block';
+    }
+  };
+
+  input.click();
+});
+
+// Appliquer les pré-réglages
+document.querySelectorAll('.preset').forEach(button => {
+  button.addEventListener('click', (event) => {
+    const sharpness = event.target.dataset.sharpness;
+    const contrast = event.target.dataset.contrast;
+    const brightness = event.target.dataset.brightness;
+    const saturation = event.target.dataset.saturation;
+
+    document.getElementById('sharpness').value = sharpness;
+    document.getElementById('contrast').value = contrast;
+    document.getElementById('brightness').value = brightness;
+    document.getElementById('saturate').value = saturation;
+  });
+});
