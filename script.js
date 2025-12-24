@@ -1,13 +1,17 @@
-// Charger TensorFlow.js et le modèle de super-résolution
-async function loadModel() {
-  const model = await tf.loadGraphModel('https://example.com/path/to/model/model.json'); // Remplace par l'URL de ton modèle
-  return model;
-}
 let model;
 
-loadModel().then(loadedModel => {
-  model = loadedModel;
+document.getElementById('upload').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  const videoOriginal = document.getElementById('video-original');
+  videoOriginal.src = URL.createObjectURL(file);
+  videoOriginal.load();
 });
+
+function loadModel() {
+  tf.loadGraphModel('https://example.com/path/to/model/model.json').then((loadedModel) => {
+    model = loadedModel;
+  });
+}
 
 function enhanceVideo(videoElement) {
   const canvas = document.createElement('canvas');
@@ -20,14 +24,12 @@ function enhanceVideo(videoElement) {
       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      // Convertir l'image en tensor et appliquer le modèle
       const input = tf.browser.fromPixels(imageData).toFloat().expandDims(0).div(tf.scalar(255));
-      model.executeAsync(input).then(output => {
+      model.executeAsync(input).then((output) => {
         const enhancedImage = output.squeeze().mul(tf.scalar(255)).clipByValue(0, 255).cast('int32');
         
-        // Afficher l'image améliorée sur le canvas
         tf.browser.toPixels(enhancedImage, canvas).then(() => {
-          // Remplacer la vidéo par le canvas ou faire une autre manipulation
+          videoElement.parentNode.replaceChild(canvas, videoElement);
         });
       });
     };
@@ -36,40 +38,16 @@ function enhanceVideo(videoElement) {
     videoElement.addEventListener('timeupdate', processFrame);
   });
 }
-const sharpnessSlider = document.getElementById('sharpness');
-const contrastSlider = document.getElementById('contrast');
-const brightnessSlider = document.getElementById('brightness');
-const saturateSlider = document.getElementById('saturate');
 
-function updateFilters() {
-  const sharpnessValue = sharpnessSlider.value;
-  const contrastValue = contrastSlider.value;
-  const brightnessValue = brightnessSlider.value;
-  const saturateValue = saturateSlider.value;
+document.getElementById('toggleComparison').addEventListener('click', () => {
+  const videoOriginal = document.getElementById('video-original');
+  const videoEnhanced = document.getElementById('video-enhanced');
 
-  // Utiliser ces valeurs pour ajuster le rendu de la vidéo ou de l'image améliorée
-  // Par exemple, appliquer des filtres CSS ou des paramètres au modèle
-}
-
-// Mettre à jour les filtres à chaque changement de slider
-sharpnessSlider.addEventListener('input', updateFilters);
-contrastSlider.addEventListener('input', updateFilters);
-brightnessSlider.addEventListener('input', updateFilters);
-saturateSlider.addEventListener('input', updateFilters);
-const videoOriginal = document.getElementById('video-original');
-const videoEnhanced = document.getElementById('video-enhanced');
-const toggleButton = document.getElementById('toggleComparison');
-
-let showEnhanced = true;
-
-toggleButton.addEventListener('click', () => {
-  showEnhanced = !showEnhanced;
-  
-  if (showEnhanced) {
+  if (videoEnhanced.style.display === 'none') {
     videoOriginal.style.display = 'none';
     videoEnhanced.style.display = 'block';
   } else {
     videoOriginal.style.display = 'block';
     videoEnhanced.style.display = 'none';
   }
-});
+}
