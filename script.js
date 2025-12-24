@@ -50,4 +50,4 @@ document.getElementById('toggleComparison').addEventListener('click', () => {
     videoOriginal.style.display = 'block';
     videoEnhanced.style.display = 'none';
   }
-}
+});
