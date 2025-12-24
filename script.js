@@ -80,3 +80,19 @@ document.getElementById('toggleComparison').addEventListener('click', () => {
 
 // Charger le modèle au démarrage
 loadModel();
+// Gérer les pré-réglages
+document.querySelectorAll('.preset').forEach(button => {
+  button.addEventListener('click', (event) => {
+    const sharpness = event.target.dataset.sharpness;
+    const contrast = event.target.dataset.contrast;
+    const brightness = event.target.dataset.brightness;
+    const saturation = event.target.dataset.saturation;
+
+    document.getElementById('sharpness').value = sharpness;
+    document.getElementById('contrast').value = contrast;
+    document.getElementById('brightness').value = brightness;
+    document.getElementById('saturate').value = saturation;
+  });
+});
+
+// Corriger l'importation de fichier
