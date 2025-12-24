@@ -36,3 +36,23 @@ function enhanceVideo(videoElement) {
     videoElement.addEventListener('timeupdate', processFrame);
   });
 }
+const sharpnessSlider = document.getElementById('sharpness');
+const contrastSlider = document.getElementById('contrast');
+const brightnessSlider = document.getElementById('brightness');
+const saturateSlider = document.getElementById('saturate');
+
+function updateFilters() {
+  const sharpnessValue = sharpnessSlider.value;
+  const contrastValue = contrastSlider.value;
+  const brightnessValue = brightnessSlider.value;
+  const saturateValue = saturateSlider.value;
+
+  // Utiliser ces valeurs pour ajuster le rendu de la vidéo ou de l'image améliorée
+  // Par exemple, appliquer des filtres CSS ou des paramètres au modèle
+}
+
+// Mettre à jour les filtres à chaque changement de slider
+sharpnessSlider.addEventListener('input', updateFilters);
+contrastSlider.addEventListener('input', updateFilters);
+brightnessSlider.addEventListener('input', updateFilters);
+saturateSlider.addEventListener('input', updateFilters);
