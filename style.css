@@ -1,60 +1,63 @@
-// Charger le modèle IA
-let model;
-
-function loadModel() {
-  tf.loadGraphModel('https://example.com/path/to/model/model.json')
-    .then(loadedModel => {
-      model = loadedModel;
-    })
-    .catch(error => {
-      console.error("Erreur lors du chargement du modèle :", error);
-    });
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
+  padding: 20px;
 }
 
-// Gérer l'importation de la vidéo
-document.getElementById('importButton').addEventListener('click', () => {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'video/*';
+h1 {
+  margin-bottom: 20px;
+}
 
-  input.onchange = (event) => {
-    const file = event.target.files[0];
-    const videoElement = document.getElementById('video-original');
-    videoElement.src = URL.createObjectURL(file);
-    videoElement.style.display = 'block';
-  };
+.video-section, .preset-section, .transformation-section {
+  margin: 20px auto;
+  max-width: 900px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
 
-  input.click();
-});
+h2 {
+  margin-top: 0;
+}
 
-// Fonction pour la transformation de la vidéo
-document.getElementById('processButton').addEventListener('click', () => {
-  const videoOriginal = document.getElementById('video-original');
-  const videoEnhanced = document.getElementById('video-enhanced');
-  const progressElement = document.getElementById('progress');
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  if (!model) {
-    alert("Le modèle n'est pas encore chargé. Veuillez patienter.");
-    return;
-  }
+button:hover {
+  background-color: #0056b3;
+}
 
-  videoEnhanced.style.display = 'block';
-  videoOriginal.style.display = 'none';
+video {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  // Simuler la transformation et le progrès
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += 10;
-    progressElement.innerText = `Progression : ${progress}%`;
-    if (progress >= 100) {
-      clearInterval(interval);
-      progressElement.innerText = 'Transformation terminée';
-      // Ici, on mettra le code pour appliquer le modèle à la vidéo.
-      // Pour l’instant, on va simplement afficher la vidéo d’origine.
-      videoEnhanced.src = videoOriginal.src;
-    }
-  }, 500); // Simule la progression toutes les 0.5 secondes
-});
+.preset-section button {
+  margin: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #6c757d;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-// Charger le modèle au démarrage
-loadModel();
+.preset-section button:hover {
+  background-color: #5a6268;
+}
