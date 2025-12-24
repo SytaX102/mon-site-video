@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Amélioration Vidéo</title>
+  <style>
+    body {
+      background:#111;
+      color:white;
+      font-family:Arial;
+      text-align:center;
+    }
+    video {
+      width:80%;
+      max-width:800px;
+      filter: contrast(120%) brightness(110%) saturate(130%);
+      margin-top:20px;
+    }
+  </style>
+</head>
+<body>
 
+<h1>Améliore ta vidéo</h1>
+
+<input type="file" accept="video/*" id="upload">
+
+<br><br>
+
+<video id="video" controls></video>
+
+<script>
+  const upload = document.getElementById("upload");
+  const video = document.getElementById("video");
+
+  upload.onchange = e => {
+    const file = e.target.files[0];
+    video.src = URL.createObjectURL(file);
+  };
+</script>
+
+</body>
+</html>
