@@ -2,31 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Amélioration Vidéo</title>
+  <title>Amélioration Vidéo avec IA</title>
+  <!-- Intégration de TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Améliorer la qualité d’une vidéo</h1>
+  <h1>Améliorer la qualité d’une vidéo avec IA</h1>
 
-<input type="file" id="upload" accept="video/*">
+  <input type="file" id="upload" accept="video/*">
 
-<div class="controls">
-  <label>Netteté</label>
-  <input type="range" id="sharpness" min="0" max="200" value="100">
+  <div class="controls">
+    <label>Netteté</label>
+    <input type="range" id="sharpness" min="0" max="200" value="100">
 
-  <label>Contraste</label>
-  <input type="range" id="contrast" min="50" max="200" value="120">
+    <label>Contraste</label>
+    <input type="range" id="contrast" min="50" max="200" value="120">
 
-  <label>Luminosité</label>
-  <input type="range" id="brightness" min="50" max="200" value="110">
+    <label>Luminosité</label>
+    <input type="range" id="brightness" min="50" max="200" value="110">
 
-  <label>Saturation</label>
-  <input type="range" id="saturate" min="50" max="200" value="130">
-</div>
+    <label>Saturation</label>
+    <input type="range" id="saturate" min="50" max="200" value="130">
+  </div>
 
-<video id="video" controls></video>
+  <video id="video" controls></video>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
