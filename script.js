@@ -7,47 +7,34 @@ document.getElementById('upload').addEventListener('change', (event) => {
   videoOriginal.load();
 });
 
+document.getElementById('processButton').addEventListener('click', () => {
+  const videoOriginal = document.getElementById('video-original');
+  const videoEnhanced = document.getElementById('video-enhanced');
+
+  enhanceVideo(videoOriginal, videoEnhanced);
+});
+
 function loadModel() {
   tf.loadGraphModel('https://example.com/path/to/model/model.json').then((loadedModel) => {
     model = loadedModel;
   });
 }
 
-function enhanceVideo(videoElement) {
+function enhanceVideo(videoOriginal, videoEnhanced) {
+  if (!model) {
+    alert("Le modèle n'est pas encore chargé. Veuillez patienter.");
+    return;
+  }
+
+  videoEnhanced.style.display = 'block';
+  videoOriginal.style.display = 'none';
+
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
-  videoElement.addEventListener('play', () => {
+  videoEnhanced.addEventListener('play', () => {
     const processFrame = () => {
-      if (videoElement.paused || videoElement.ended) return;
+      if (videoEnhanced.paused || videoEnhanced.ended) return;
 
-      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-      const input = tf.browser.fromPixels(imageData).toFloat().expandDims(0).div(tf.scalar(255));
-      model.executeAsync(input).then((output) => {
-        const enhancedImage = output.squeeze().mul(tf.scalar(255)).clipByValue(0, 255).cast('int32');
-        
-        tf.browser.toPixels(enhancedImage, canvas).then(() => {
-          videoElement.parentNode.replaceChild(canvas, videoElement);
-        });
-      });
-    };
-
-    videoElement.play();
-    videoElement.addEventListener('timeupdate', processFrame);
-  });
-}
-
-document.getElementById('toggleComparison').addEventListener('click', () => {
-  const videoOriginal = document.getElementById('video-original');
-  const videoEnhanced = document.getElementById('video-enhanced');
-
-  if (videoEnhanced.style.display === 'none') {
-    videoOriginal.style.display = 'none';
-    videoEnhanced.style.display = 'block';
-  } else {
-    videoOriginal.style.display = 'block';
-    videoEnhanced.style.display = 'none';
-  }
-});
+      ctx.drawImage(videoEnhanced, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.
