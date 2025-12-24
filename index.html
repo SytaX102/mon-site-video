@@ -3,34 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Amélioration Vidéo avec IA</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 </head>
 <body>
 
   <h1>Améliorer la qualité d’une vidéo avec IA</h1>
 
-  <input type="file" id="upload" accept="video/*">
+  <div class="video-section">
+    <div class="original-video">
+      <h2>Vidéo sans transformation</h2>
+      <video id="video-original" controls></video>
+    </div>
 
-  <div class="controls">
-    <label>Netteté</label>
-    <input type="range" id="sharpness" min="0" max="200" value="100">
+    <div class="import-section">
+      <button id="importButton">Importer un fichier</button>
+    </div>
 
-    <label>Contraste</label>
-    <input type="range" id="contrast" min="50" max="200" value="120">
+    <div class="transformation-section">
+      <button id="processButton">Faire la transformation</button>
+      <p id="progress">Progression : 0%</p>
+    </div>
 
-    <label>Luminosité</label>
-    <input type="range" id="brightness" min="50" max="200" value="110">
-
-    <label>Saturation</label>
-    <input type="range" id="saturate" min="50" max="200" value="130">
+    <div class="transformed-video">
+      <h2>Vidéo avec transformation</h2>
+      <video id="video-enhanced" controls></video>
+    </div>
   </div>
 
-  <video id="video-original" controls style="display: none;"></video>
-  <video id="video-enhanced" controls style="display: none;"></video>
-
-  <button id="processButton">Améliorer la vidéo</button>
-  <button id="toggleComparison" style="display: none;">Comparer</button>
+  <div class="preset-section">
+    <h2>Pré-réglages</h2>
+    <!-- Ajoute ici des pré-réglages si nécessaire -->
+  </div>
 
   <script src="script.js"></script>
 </body>
