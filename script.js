@@ -1,28 +1,38 @@
-const upload = document.getElementById("upload");
-const video = document.getElementById("video");
+// Charger TensorFlow.js et le modèle de super-résolution
+async function loadModel() {
+  const model = await tf.loadGraphModel('https://example.com/path/to/model/model.json'); // Remplace par l'URL de ton modèle
+  return model;
+}
+let model;
 
-const sharpness = document.getElementById("sharpness");
-const contrast = document.getElementById("contrast");
-const brightness = document.getElementById("brightness");
-const saturate = document.getElementById("saturate");
-
-upload.addEventListener("change", e => {
-  const file = e.target.files[0];
-  video.src = URL.createObjectURL(file);
+loadModel().then(loadedModel => {
+  model = loadedModel;
 });
 
-function updateFilters() {
-  video.style.filter = `
-    contrast(${contrast.value}%)
-    brightness(${brightness.value}%)
-    saturate(${saturate.value}%)
-    drop-shadow(0 0 ${sharpness.value / 20}px rgba(255,255,255,0.3))
-  `;
+function enhanceVideo(videoElement) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  videoElement.addEventListener('play', () => {
+    const processFrame = () => {
+      if (videoElement.paused || videoElement.ended) return;
+
+      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      // Convertir l'image en tensor et appliquer le modèle
+      const input = tf.browser.fromPixels(imageData).toFloat().expandDims(0).div(tf.scalar(255));
+      model.executeAsync(input).then(output => {
+        const enhancedImage = output.squeeze().mul(tf.scalar(255)).clipByValue(0, 255).cast('int32');
+        
+        // Afficher l'image améliorée sur le canvas
+        tf.browser.toPixels(enhancedImage, canvas).then(() => {
+          // Remplacer la vidéo par le canvas ou faire une autre manipulation
+        });
+      });
+    };
+
+    videoElement.play();
+    videoElement.addEventListener('timeupdate', processFrame);
+  });
 }
-
-sharpness.oninput = updateFilters;
-contrast.oninput = updateFilters;
-brightness.oninput = updateFilters;
-saturate.oninput = updateFilters;
-
-updateFilters();
