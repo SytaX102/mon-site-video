@@ -34,22 +34,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-<button id="toggleComparison">Comparer</button>
-const videoOriginal = document.getElementById('video-original');
-const videoEnhanced = document.getElementById('video-enhanced');
-const toggleButton = document.getElementById('toggleComparison');
-
-let showEnhanced = true;
-
-toggleButton.addEventListener('click', () => {
-  showEnhanced = !showEnhanced;
-  
-  if (showEnhanced) {
-    videoOriginal.style.display = 'none';
-    videoEnhanced.style.display = 'block';
-  } else {
-    videoOriginal.style.display = 'block';
-    videoEnhanced.style.display = 'none';
-  }
-});
