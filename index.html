@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Amélioration Vidéo avec IA</title>
-  <!-- Intégration de TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -27,11 +26,15 @@
     <input type="range" id="saturate" min="50" max="200" value="130">
   </div>
 
-  <video id="video" controls></video>
+  <video id="video-original" controls style="display: none;"></video>
+  <video id="video-enhanced" controls></video>
+
+  <button id="toggleComparison">Comparer</button>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 <button id="toggleComparison">Comparer</button>
 const videoOriginal = document.getElementById('video-original');
 const videoEnhanced = document.getElementById('video-enhanced');
